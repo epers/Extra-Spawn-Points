@@ -1,5 +1,5 @@
 project:
-  name: teambets
+  name: extra-spawn-points
   dependencies:
     - name: sourcemod
       type: tar

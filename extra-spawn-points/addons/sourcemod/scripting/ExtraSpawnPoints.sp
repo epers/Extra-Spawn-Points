@@ -3,6 +3,7 @@
 
 #define PL_VERSION "1.3"
 #define MAXSPAWNS 256
+#define MAXENTNAME 128
 
 public Plugin myinfo =
 {
@@ -86,6 +87,7 @@ public Action Command_ListSpawns(int iClient, int iArgs)
 {
 	float fVec[3];
 	float fAng[3];
+	char sName[MAXENTNAME];
 
 	int i = 1;
 	int iEnt = -1;
@@ -94,6 +96,11 @@ public Action Command_ListSpawns(int iClient, int iArgs)
 
 	while ((iEnt = FindEntityByClassname(iEnt, "info_player_terrorist")) != -1)
 	{
+		GetEntPropString(iEnt, Prop_Data, "m_iName", sName, MAXENTNAME);
+		if (StrEqual(sName, "spawnpoints.2v2")) {
+			continue;
+		}
+
 		GetEntPropVector(iEnt, Prop_Data, "m_vecOrigin", fVec);
 		GetEntPropVector(iEnt, Prop_Data, "m_angRotation", fAng);
 
@@ -108,6 +115,11 @@ public Action Command_ListSpawns(int iClient, int iArgs)
 
 	while  ((iEnt = FindEntityByClassname(iEnt, "info_player_counterterrorist")) != -1)
 	{
+		GetEntPropString(iEnt, Prop_Data, "m_iName", sName, MAXENTNAME);
+		if (StrEqual(sName, "spawnpoints.2v2")) {
+			continue;
+		}
+
 		GetEntPropVector(iEnt, Prop_Data, "m_vecOrigin", fVec);
 		GetEntPropVector(iEnt, Prop_Data, "m_angRotation", fAng);
 
@@ -141,6 +153,7 @@ public Action timer_DelayAddSpawnPoints(Handle hTimer)
 
 stock void AddMapSpawns() 
 {
+	char sName[MAXENTNAME];
 	int iTSpawns = 0;
 	int iCTSpawns = 0;
 	
@@ -158,6 +171,11 @@ stock void AddMapSpawns()
 	/* Receive all the T Spawns. */
 	while ((iSpawnEnt = FindEntityByClassname(iSpawnEnt, "info_player_terrorist")) != -1)
 	{
+		GetEntPropString(iSpawnEnt, Prop_Data, "m_iName", sName, MAXENTNAME);
+		if (StrEqual(sName, "spawnpoints.2v2")) {
+			continue;
+		}
+
 		GetEntPropVector(iSpawnEnt, Prop_Data, "m_vecOrigin", fVecT[iTSpawns]);
 		GetEntPropVector(iSpawnEnt, Prop_Data, "m_angRotation", fAngT[iTSpawns]);
 
@@ -172,6 +190,11 @@ stock void AddMapSpawns()
 	/* Receive all the CT Spawns. */
 	while ((iSpawnEnt = FindEntityByClassname(iSpawnEnt, "info_player_counterterrorist")) != -1)
 	{
+		GetEntPropString(iSpawnEnt, Prop_Data, "m_iName", sName, MAXENTNAME);
+		if (StrEqual(sName, "spawnpoints.2v2")) {
+			continue;
+		}
+
 		GetEntPropVector(iSpawnEnt, Prop_Data, "m_vecOrigin", fVecCT[iCTSpawns]);
 		GetEntPropVector(iSpawnEnt, Prop_Data, "m_angRotation", fAngCT[iCTSpawns]);
 
@@ -258,6 +281,7 @@ stock void AddMapSpawns()
 /* Gets the spawn count for a specific team (e.g. CT and T). */
 stock int getTeamCount(int iTeam)
 {
+	char sName[MAXENTNAME];
 	int iAmount = 0;
 	int iEnt;
 	
@@ -266,6 +290,10 @@ stock int getTeamCount(int iTeam)
 	{
 		while ((iEnt = FindEntityByClassname(iEnt, "info_player_terrorist")) != -1)
 		{
+			GetEntPropString(iEnt, Prop_Data, "m_iName", sName, MAXENTNAME);
+			if (StrEqual(sName, "spawnpoints.2v2")) {
+				continue;
+			}
 			iAmount++;
 		}
 	}
@@ -275,6 +303,10 @@ stock int getTeamCount(int iTeam)
 	{
 		while ((iEnt = FindEntityByClassname(iEnt, "info_player_counterterrorist")) != -1)
 		{
+			GetEntPropString(iEnt, Prop_Data, "m_iName", sName, MAXENTNAME);
+			if (StrEqual(sName, "spawnpoints.2v2")) {
+				continue;
+			}
 			iAmount++;
 		}
 	}

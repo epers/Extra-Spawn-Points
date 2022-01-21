@@ -1,4 +1,5 @@
 project:
+  sourceknight: 0.1
   name: extra-spawn-points
   dependencies:
     - name: sourcemod
